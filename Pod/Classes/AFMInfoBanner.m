@@ -215,34 +215,37 @@ static const CGFloat kDefaultHideInterval = 2.0;
 
 - (void)updateConstraints
 {
-    NSDictionary* viewsDict = @{ @"self": self, @"label": self.textLabel };
-    
-    // Expand to the superview's width
-    [self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|"
-                                                                           options:0 metrics:nil views:viewsDict]];
-    // Place initial constraint exactly one frame above the bottom line of view above us
-    // or above top of screen, if there is no such view. Assign it to property to animate later.
-    CGFloat topOffset = -self.frame.size.height;
-    if (self.viewAboveBanner)
-    {
-        topOffset += CGRectGetMaxY(self.viewAboveBanner.frame);
+    @try {
+        NSDictionary* viewsDict = @{ @"self": self, @"label": self.textLabel };
+        
+        // Expand to the superview's width
+        [self.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[self]|"
+                                                                               options:0 metrics:nil views:viewsDict]];
+        // Place initial constraint exactly one frame above the bottom line of view above us
+        // or above top of screen, if there is no such view. Assign it to property to animate later.
+        CGFloat topOffset = -self.frame.size.height;
+        if (self.viewAboveBanner)
+        {
+            topOffset += CGRectGetMaxY(self.viewAboveBanner.frame);
+        }
+        NSArray* topConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(offset)-[self]"
+                                                                          options:0
+                                                                          metrics:@{ @"offset": @(topOffset) }
+                                                                            views:viewsDict];
+        self.topSpacingConstraint = [topConstraints firstObject];
+        [self.superview addConstraints:topConstraints];
+        
+        // Position label correctly
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|"
+                                                                     options:0 metrics:nil views:viewsDict]];
+        CGFloat topMargin = kMargin + self.additionalTopSpacing;
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(top)-[label]-(bottom)-|"
+                                                                     options:0
+                                                                     metrics:@{ @"top": @(topMargin), @"bottom": @(kMargin) }
+                                                                       views:viewsDict]];
+        [super updateConstraints];
+    } @catch (NSException *exception) {
     }
-    NSArray* topConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(offset)-[self]"
-                                                                      options:0
-                                                                      metrics:@{ @"offset": @(topOffset) }
-                                                                        views:viewsDict];
-    self.topSpacingConstraint = [topConstraints firstObject];
-    [self.superview addConstraints:topConstraints];
-    
-    // Position label correctly
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|"
-                                                                 options:0 metrics:nil views:viewsDict]];
-    CGFloat topMargin = kMargin + self.additionalTopSpacing;
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(top)-[label]-(bottom)-|"
-                                                                 options:0
-                                                                 metrics:@{ @"top": @(topMargin), @"bottom": @(kMargin) }
-                                                                   views:viewsDict]];
-    [super updateConstraints];
 }
 
 - (void)layoutSubviews
