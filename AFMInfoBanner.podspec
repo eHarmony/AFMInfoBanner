@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "AFMInfoBanner"
-  s.version          = "1.2.4"
+  s.version          = "1.2.5"
   s.summary          = "Easy to use auto-hiding notice bar below Navigation Bar."
   s.description      = <<-DESC
                        Red or green banner with text sliding from below the Navigation Bar
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.screenshots     = "https://raw.githubusercontent.com/ask-fm/AFMInfoBanner/master/res/red_banner.gif", "https://raw.githubusercontent.com/ask-fm/AFMInfoBanner/master/res/red_banner.png"
   s.license          = 'MIT'
   s.author           = { "Romans Karpelcevs" => "roman@ask.fm" }
-  s.source           = { :git => "https://github.com/ask-fm/AFMInfoBanner.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/eHarmony/AFMInfoBanner.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/cvbk'
 
   s.platform     = :ios, '7.0'
