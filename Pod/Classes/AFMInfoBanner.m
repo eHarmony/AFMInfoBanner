@@ -244,7 +244,8 @@ static const CGFloat kDefaultHideInterval = 2.0;
                                                                      metrics:@{ @"top": @(topMargin), @"bottom": @(kMargin) }
                                                                        views:viewsDict]];
         [super updateConstraints];
-    } @catch (NSException *exception) {
+    } @catch (NSException* exception) {
+        [super updateConstraints];
     }
 }
 
